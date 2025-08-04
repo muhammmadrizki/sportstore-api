@@ -1,9 +1,17 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
+import { prisma } from "./lib/prisma";
 
-const app = new Hono()
+const app = new Hono();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.get("/", (c) => {
+  return c.json({
+    message: "Sport Store API",
+  });
+});
 
-export default app
+app.get("/products", async (c) => {
+  const products = await prisma.product.findMany();
+  return c.json(products);
+});
+
+export default app;
