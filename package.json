@@ -1,10 +1,24 @@
 {
   "name": "my-app",
-  "scripts": {
-    "dev": "bun run --hot src/index.ts"
+   "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "build": "bun install && prisma migrate deploy && prisma generate",
+    "start": "bun run src/index.ts",
+    "db:up": "docker compose up -d",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:gen": "prisma generate --no-hints",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio --browser none",
+    "db:reset": "prisma migrate reset --skip-seed"
+  },
+  "prisma": {
+    "seed": "bun prisma/seed.ts"
   },
   "dependencies": {
-    "hono": "^4.8.12"
+    "hono": "^4.8.12",
+    "prisma": "^6.13.0",
+    "typescript": "^5.9.2"
   },
   "devDependencies": {
     "@types/bun": "latest"
