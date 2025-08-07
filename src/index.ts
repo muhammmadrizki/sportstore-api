@@ -14,4 +14,6 @@ app.get("/products", async (c) => {
   return c.json(products);
 });
 
+app.post("/products")
+
 export default app;
