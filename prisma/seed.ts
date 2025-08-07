@@ -18,7 +18,7 @@ async function main() {
       },
     });
 
-    console.log(`🐻 Animal: ${product.name} (${product.slug})`);
+    console.log(` Product : ${product.name} (${product.slug})`);
   }
 }
 
