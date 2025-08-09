@@ -1,4 +1,5 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
+import { Scalar } from "@scalar/hono-api-reference";
 
 import { cors } from "hono/cors";
 import { createRoute } from "@hono/zod-openapi";
@@ -34,6 +35,15 @@ app.openapi(route, async (c) => {
 
   return c.json(products);
 });
+
+app.doc("/doc", {
+  openapi: "3.0.0",
+  info: {
+    version: "1.0.0",
+    title: "Sport Store API",
+  },
+});
+app.get("/", Scalar({ url: "/openapi.json" }));
 
 app.get("/products/:id", async (c) => {
   const id = c.req.param("id");
