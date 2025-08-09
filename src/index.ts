@@ -1,8 +1,13 @@
-import { Hono } from "hono";
-import { prisma } from "./lib/prisma";
-import { cors } from "hono/cors";
+import { OpenAPIHono } from "@hono/zod-openapi";
 
-const app = new Hono();
+import { cors } from "hono/cors";
+import { createRoute } from "@hono/zod-openapi";
+
+import { prisma } from "./lib/prisma";
+import { ProductsSchema } from "./modules/product/schema";
+
+const app = new OpenAPIHono();
+
 app.use(cors());
 
 app.get("/", (c) => {
@@ -11,8 +16,22 @@ app.get("/", (c) => {
   });
 });
 
-app.get("/products", async (c) => {
+//GET API PRODUCTS
+const route = createRoute({
+  method: "get",
+  path: "/products",
+
+  responses: {
+    200: {
+      content: { "application/json": { schema: ProductsSchema } },
+      description: "Get all Products",
+    },
+  },
+});
+
+app.openapi(route, async (c) => {
   const products = await prisma.product.findMany();
+
   return c.json(products);
 });
 
