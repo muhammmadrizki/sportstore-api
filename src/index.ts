@@ -10,38 +10,40 @@ const app = new OpenAPIHono();
 
 app.use(cors());
 
-app.get("/", (c) => {
-  return c.json({
-    message: "Sport Store API",
-  });
-});
+// app.get("/", (c) => {
+//   return c.json({
+//     message: "Sport Store API",
+//   });
+// });
 
 //GET API PRODUCTS
-const route = createRoute({
-  method: "get",
-  path: "/products",
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/products",
 
-  responses: {
-    200: {
-      content: { "application/json": { schema: ProductsSchema } },
-      description: "Get all Products",
+    responses: {
+      200: {
+        content: { "application/json": { schema: ProductsSchema } },
+        description: "Get all Products",
+      },
     },
-  },
-});
+  }),
+  async (c) => {
+    const products = await prisma.product.findMany();
 
-app.openapi(route, async (c) => {
-  const products = await prisma.product.findMany();
+    return c.json(products);
+  }
+);
 
-  return c.json(products);
-});
-
-app.doc("/doc", {
+app.doc("/openapi.json", {
   openapi: "3.0.0",
   info: {
     version: "1.0.0",
     title: "Sport Store API",
   },
 });
+
 app.get("/", Scalar({ url: "/openapi.json" }));
 
 app.get("/products/:id", async (c) => {
