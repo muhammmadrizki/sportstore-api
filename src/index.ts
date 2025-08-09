@@ -1,8 +1,7 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { Scalar } from "@scalar/hono-api-reference";
-
 import { cors } from "hono/cors";
 import { createRoute } from "@hono/zod-openapi";
+import { Scalar } from "@scalar/hono-api-reference";
 
 import { prisma } from "./lib/prisma";
 import { ProductsSchema } from "./modules/product/schema";
