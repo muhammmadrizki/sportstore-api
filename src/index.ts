@@ -55,7 +55,7 @@ app.delete("/products/:id", async (c) => {
   }
 });
 
-app.patch("/condiments/:id", async (c) => {
+app.patch("/products/:id", async (c) => {
   const id = c.req.param("id");
   const body = await c.req.json();
   try {
