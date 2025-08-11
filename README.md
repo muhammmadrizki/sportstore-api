@@ -1,3 +1,9 @@
+# SportStore API
+
+- https://sportstore-api.muhammadrizkikurniaputra.com
+
+## Setup
+
 To install dependencies:
 
 ```sh
