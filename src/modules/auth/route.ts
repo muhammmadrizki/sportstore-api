@@ -71,6 +71,36 @@ authRoute.openapi(
   }
 );
 
+// / me
+authRoute.openapi(
+  createRoute({
+    method: "get",
+    path: "/me",
+    // request: {
+    //   body: {
+    //     content: { "application/json": { schema: AuthLoginSchema } },
+    //   },
+    // },
+    responses: {
+      200: {
+        content: { "application/json": { schema: PrivateUserSchema } },
+        description: "Login Success",
+      },
+      404: {
+        description: "User not found",
+      },
+    },
+  }),
+  async (c) => {
+    const user = await prisma.user.findFirst();
+
+    if (!user) {
+      return c.json({ message: "User not found" }, 404);
+    }
+    return c.json(user);
+  }
+);
+
 //   createRoute({
 //     method: "get",
 //     path: "/{id}",
