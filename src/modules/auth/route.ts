@@ -12,6 +12,7 @@ import { prisma } from "../../lib/prisma";
 import { hashPassword, verifyPassword } from "../../lib/password";
 import { hash, password } from "bun";
 import { signToken } from "../../lib/token";
+import { checkAuthorized } from "./middleware";
 
 export const authRoute = new OpenAPIHono();
 // REGISTER
@@ -129,6 +130,7 @@ authRoute.openapi(
     request: {
       headers: AuthHeaderSchema,
     },
+    middleware: checkAuthorized,
     responses: {
       200: {
         content: { "application/json": { schema: PrivateUserSchema } },
@@ -140,44 +142,7 @@ authRoute.openapi(
     },
   }),
   async (c) => {
-    const user = await prisma.user.findFirst();
-
-    if (!user) {
-      return c.json({ message: "User not found" }, 404);
-    }
+    const user = c.get("user");
     return c.json(user);
   }
 );
-
-//   createRoute({
-//     method: "get",
-//     path: "/{id}",
-//     request: {
-//       params: UsersIdSchema,
-//     },
-//     responses: {
-//       200: {
-//         content: { "application/json": { schema: UserSchema } },
-//         description: "Get user by slug",
-//       },
-//       404: {
-//         description: "Not found",
-//       },
-//     },
-//   }),
-//   async (c) => {
-//     const { id } = c.req.valid("param");
-
-//     const user = await prisma.user.findUnique({
-//       where: { id },
-//       omit: {
-//         email: true,
-//       },
-//     });
-//     if (!user) {
-//       return c.json({ message: "User not found" }, 404);
-//     }
-
-//     return c.json(user);
-//   }
-// );

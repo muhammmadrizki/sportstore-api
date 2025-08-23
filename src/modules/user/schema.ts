@@ -18,3 +18,5 @@ export const UsersSchema = z.array(PublicUserSchema);
 export const UsersIdSchema = z.object({
   id: z.string(),
 });
+
+export type PrivateUser = z.infer<typeof PrivateUserSchema>;
