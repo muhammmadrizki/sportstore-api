@@ -3,6 +3,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 
 import { PrivateUserSchema } from "../user/schema";
 import {
+  AuthHeaderSchema,
   AuthLoginSchema,
   AuthLoginSuccessSchema,
   AuthRegisterSchema,
@@ -125,6 +126,9 @@ authRoute.openapi(
     //     content: { "application/json": { schema: AuthLoginSchema } },
     //   },
     // },
+    request: {
+      headers: AuthHeaderSchema,
+    },
     responses: {
       200: {
         content: { "application/json": { schema: PrivateUserSchema } },
