@@ -4,10 +4,11 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { PrivateUserSchema } from "../user/schema";
 import { AuthLoginSchema, AuthRegisterSchema } from "./schema";
 import { prisma } from "../../lib/prisma";
-import { hashPassword } from "../../lib/password";
+import { hashPassword, verifyPassword } from "../../lib/password";
+import { hash, password } from "bun";
 
 export const authRoute = new OpenAPIHono();
-//POST REGISTER
+// REGISTER
 authRoute.openapi(
   createRoute({
     method: "post",
@@ -53,7 +54,7 @@ authRoute.openapi(
   }
 );
 
-// LOGIN POST
+// LOGIN
 authRoute.openapi(
   createRoute({
     method: "post",
@@ -68,6 +69,9 @@ authRoute.openapi(
         content: { "application/json": { schema: PrivateUserSchema } },
         description: "Login Success",
       },
+      400: {
+        description: "Login Failed",
+      },
       404: {
         description: "User not found",
       },
@@ -80,11 +84,28 @@ authRoute.openapi(
       where: {
         email: body.email,
       },
+      include: {
+        password: true,
+      },
     });
     if (!user) {
-      return c.json({ message: "User not found" }, 404);
+      return c.notFound();
     }
-    return c.json(user);
+    if (!user.password) {
+      return c.notFound();
+    }
+
+    const isPasswordMatch = await verifyPassword(
+      body.password,
+      user.password.hash
+    );
+
+    if (!isPasswordMatch) {
+      return c.json({ message: "Password Invalid" }, 400);
+    }
+
+    const { password, ...userWithoutPassword } = user;
+    return c.json(userWithoutPassword);
   }
 );
 
