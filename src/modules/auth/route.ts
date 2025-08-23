@@ -4,6 +4,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { PrivateUserSchema } from "../user/schema";
 import { AuthLoginSchema, AuthRegisterSchema } from "./schema";
 import { prisma } from "../../lib/prisma";
+import { hashPassword } from "../../lib/password";
 
 export const authRoute = new OpenAPIHono();
 //POST REGISTER
@@ -33,6 +34,11 @@ authRoute.openapi(
         data: {
           email: body.email,
           fullName: body.fullName,
+          password: {
+            create: {
+              hash: await hashPassword(body.password),
+            },
+          },
         },
       });
       return c.json(user, 201);
