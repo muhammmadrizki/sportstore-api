@@ -10,7 +10,6 @@ import {
 } from "./schema";
 import { prisma } from "../../lib/prisma";
 import { hashPassword, verifyPassword } from "../../lib/password";
-import { hash, password } from "bun";
 import { signToken } from "../../lib/token";
 import { checkAuthorized } from "./middleware";
 
@@ -113,7 +112,7 @@ authRoute.openapi(
 
     const token = await signToken(user.id);
 
-    return c.json({ token });
+    return c.json(token);
   }
 );
 
