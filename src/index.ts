@@ -10,6 +10,7 @@ import { cartRoute } from "./modules/cart/route";
 
 const app = new OpenAPIHono();
 
+app.use(logger());
 app.use(cors());
 app.use(logger());
 
