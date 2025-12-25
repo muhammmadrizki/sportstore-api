@@ -33,4 +33,7 @@ export const AddCartItemSchema = z.object({
   quantity: z.number().default(1),
 });
 
+export const DeleteCartItemParamSchema = z.object({
+  id: z.string().openapi({}),
+});
 export type Cart = z.infer<typeof CartSchema>;
