@@ -41,6 +41,7 @@ authRoute.openapi(
         data: {
           email: body.email,
           fullName: body.fullName,
+          phoneNumber: body.phoneNumber,
           password: {
             create: {
               hash: await hashPassword(body.password),
@@ -54,10 +55,10 @@ authRoute.openapi(
         {
           message: "Failed to register user",
         },
-        400
+        400,
       );
     }
-  }
+  },
 );
 
 // LOGIN
@@ -103,7 +104,7 @@ authRoute.openapi(
 
     const isPasswordMatch = await verifyPassword(
       body.password,
-      user.password.hash
+      user.password.hash,
     );
 
     if (!isPasswordMatch) {
@@ -113,7 +114,7 @@ authRoute.openapi(
     const token = await signToken(user.id);
 
     return c.json(token);
-  }
+  },
 );
 
 // / me
@@ -143,5 +144,5 @@ authRoute.openapi(
   async (c) => {
     const user = c.get("user");
     return c.json(user);
-  }
+  },
 );

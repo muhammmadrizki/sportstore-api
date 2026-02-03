@@ -4,6 +4,7 @@ export const AuthRegisterSchema = z.object({
   fullName: z.string(),
   email: z.string(),
   password: z.string(),
+  phoneNumber: z.string(),
 });
 
 export const AuthLoginSchema = z.object({
