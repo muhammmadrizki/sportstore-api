@@ -7,6 +7,7 @@ import {
   AddCartItemSchema,
   CartSchema,
   DeleteCartItemParamSchema,
+  PatchCartItemSchema,
 } from "./schema";
 import { checkAuthorized } from "../auth/middleware";
 import { prisma } from "../../lib/prisma";
@@ -45,7 +46,7 @@ cartRoute.openapi(
     }
 
     return c.json(cart);
-  }
+  },
 );
 
 //POST/cart/items
@@ -93,7 +94,7 @@ cartRoute.openapi(
     } catch (error) {
       return c.json({ message: "Failed to add item to cart" }, 400);
     }
-  }
+  },
 );
 
 // DELETE /cart/items/:id
@@ -142,5 +143,78 @@ cartRoute.openapi(
     });
 
     return c.json(updatedCart);
-  }
+  },
+);
+
+//patch /cart/items/:id
+cartRoute.openapi(
+  createRoute({
+    method: "patch",
+    path: "/items/{id}",
+    middleware: checkAuthorized,
+    request: {
+      params: DeleteCartItemParamSchema,
+      body: {
+        content: {
+          "application/json": {
+            schema: PatchCartItemSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        content: {
+          "application/json": {
+            schema: CartSchema,
+          },
+        },
+        description: "Cart item patched",
+      },
+      404: { description: "Cart item not found" },
+    },
+  }),
+  async (c) => {
+    const user = c.get("user");
+    const { id } = c.req.valid("param");
+    const body = c.req.valid("json");
+
+    const cartItem = await prisma.cartItem.findFirst({
+      where: {
+        id,
+        cart: { userId: user.id },
+      },
+    });
+
+    if (!cartItem) {
+      return c.json({ message: "Cart item not found" }, 404);
+    }
+
+    let newQuantity = cartItem.quantity;
+
+    if (body.action === "increment") {
+      newQuantity += body.amount;
+    }
+
+    if (body.action === "decrement") {
+      newQuantity -= body.amount;
+    }
+
+    // kalau quantity <= 0 → delete item
+    if (newQuantity <= 0) {
+      await prisma.cartItem.delete({ where: { id } });
+    } else {
+      await prisma.cartItem.update({
+        where: { id },
+        data: { quantity: newQuantity },
+      });
+    }
+
+    const updatedCart = await prisma.cart.findFirst({
+      where: { userId: user.id },
+      include: { items: { include: { product: true } } },
+    });
+
+    return c.json(updatedCart);
+  },
 );

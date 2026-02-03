@@ -37,3 +37,8 @@ export const DeleteCartItemParamSchema = z.object({
   id: z.string().openapi({}),
 });
 export type Cart = z.infer<typeof CartSchema>;
+
+export const PatchCartItemSchema = z.object({
+  action: z.enum(["increment", "decrement"]),
+  amount: z.number().min(1).default(1),
+});
