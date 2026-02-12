@@ -50,12 +50,63 @@ cartRoute.openapi(
 );
 
 //POST/cart/items
+// cartRoute.openapi(
+//   createRoute({
+//     method: "post",
+//     path: "/items",
+//     request: {
+//       body: { content: { "application/json": { schema: AddCartItemSchema } } },
+//     },
+//     middleware: checkAuthorized,
+//     responses: {
+//       200: {
+//         content: { "application/json": { schema: CartSchema } },
+//         description: "Add item to cart",
+//       },
+//       400: {
+//         description: "Failed to add item to cart",
+//       },
+//     },
+//   }),
+//   async (c) => {
+//     try {
+//       const body = c.req.valid("json");
+//       const user = c.get("user");
+
+//       const cart = await prisma.cart.findFirst({
+//         where: { userId: user.id },
+//       });
+
+//       if (!cart) {
+//         return c.json({ message: "Cart not found" }, 400);
+//       }
+
+//       const newCartItem = await prisma.cartItem.create({
+//         data: {
+//           cartId: cart.id,
+//           productId: body.productId,
+//           quantity: body.quantity,
+//         },
+//         include: { product: true },
+//       });
+
+//       return c.json(newCartItem);
+//     } catch (error) {
+//       return c.json({ message: "Failed to add item to cart" }, 400);
+//     }
+//   },
+// );
+//POST/cart/items
 cartRoute.openapi(
   createRoute({
     method: "post",
     path: "/items",
     request: {
-      body: { content: { "application/json": { schema: AddCartItemSchema } } },
+      body: {
+        content: {
+          "application/json": { schema: AddCartItemSchema },
+        },
+      },
     },
     middleware: checkAuthorized,
     responses: {
@@ -73,14 +124,19 @@ cartRoute.openapi(
       const body = c.req.valid("json");
       const user = c.get("user");
 
-      const cart = await prisma.cart.findFirst({
+      // 1️⃣ cari cart
+      let cart = await prisma.cart.findFirst({
         where: { userId: user.id },
       });
 
+      // 2️⃣ kalau belum ada → buat
       if (!cart) {
-        return c.json({ message: "Cart not found" }, 400);
+        cart = await prisma.cart.create({
+          data: { userId: user.id },
+        });
       }
 
+      // 3️⃣ create cart item
       const newCartItem = await prisma.cartItem.create({
         data: {
           cartId: cart.id,
@@ -92,6 +148,7 @@ cartRoute.openapi(
 
       return c.json(newCartItem);
     } catch (error) {
+      console.error(error);
       return c.json({ message: "Failed to add item to cart" }, 400);
     }
   },
