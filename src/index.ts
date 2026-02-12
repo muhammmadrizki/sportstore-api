@@ -10,8 +10,16 @@ import { cartRoute } from "./modules/cart/route";
 
 const app = new OpenAPIHono();
 
-app.use(logger());
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://sportstore.muhammadrizkikurniaputra.com",
+    ],
+    credentials: true,
+  }),
+);
 app.use(logger());
 
 app.route("/products", productRoute);
