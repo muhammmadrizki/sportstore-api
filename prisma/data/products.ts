@@ -27,7 +27,7 @@ export const dataSeedProducts: SeedProduct[] = [
     slug: "mu-jacket-roses-track",
     name: "Manchester United x adidas Stone Roses Track Jacket Black",
     description:
-      "A stylish and iconic Manchester United x adidas Stone Roses Track Jacket featuring a classic black design, premium materials, and exclusive details that blend football heritage with legendary British music culture.",
+      "A stylish Jacket featuring a classic black design, premium materials, and exclusive details",
     imageUrl:
       "https://mufc-live.cdn.scayle.cloud/images/1bb2210ea0526201c443f8a36bc774b4.jpg?brightness=1&width=922&height=1230&quality=70&bg=ffffff",
     price: 2392200,
