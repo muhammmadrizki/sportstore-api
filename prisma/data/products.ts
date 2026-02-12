@@ -12,42 +12,42 @@ export const dataSeedProducts: SeedProduct[] = [
     name: "Manchester United Home Jersey 2025",
     description: "Official Manchester United home jersey for the 2025 season",
     imageUrl:
-      "https://mufc-live.cdn.scayle.cloud/images/139fbaa87bc74a30fa9de0bb0c14cd9d.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
-    price: 1938100,
+      "https://mufc-live.cdn.scayle.cloud/images/6051e11745fad58cbf2b303f8e0ff92d.jpg?brightness=1&width=922&height=1230&quality=70&bg=ffffff",
+    price: 2870600,
   },
   {
     slug: "mu-away-jersey-2025",
     name: "Manchester United Away Jersey 2025",
     description: "Official Manchester United away jersey for the 2025 season",
     imageUrl:
-      "https://mufc-live.cdn.scayle.cloud/images/d331a1fb4396017cd187e4154da95840.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
-    price: 1938100,
+      "https://mufc-live.cdn.scayle.cloud/images/4644041696bbde141051021ef2325329.jpg?brightness=1&width=922&height=1230&quality=70&bg=ffffff",
+    price: 2033400,
   },
   {
-    slug: "mu-keychain-white",
-    name: "MU keychain",
+    slug: "mu-jacket-roses-track",
+    name: "Manchester United x adidas Stone Roses Track Jacket Black",
     description:
-      "Stylish and durable keychain featuring the iconic Manchester United crest.",
+      "A stylish and iconic Manchester United x adidas Stone Roses Track Jacket featuring a classic black design, premium materials, and exclusive details that blend football heritage with legendary British music culture.",
     imageUrl:
-      "https://mufc-live.cdn.scayle.cloud/images/d067e7984846362835dcbd09ac460fde.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
-    price: 1099000,
+      "https://mufc-live.cdn.scayle.cloud/images/1bb2210ea0526201c443f8a36bc774b4.jpg?brightness=1&width=922&height=1230&quality=70&bg=ffffff",
+    price: 2392200,
   },
   {
-    slug: "mu-training-short-wear",
-    name: "MU training wear short",
-    description: "Official 2025 season short training wear",
+    slug: "mu-red-ball",
+    name: "Manchester United x adidas Home Club Ball Red",
+    description: "Manchester United Red Ball",
     imageUrl:
-      "https://mufc-live.cdn.scayle.cloud/images/d6415aec7046065b8bd7017c04c16335.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
-    price: 866500,
+      "https://mufc-live.cdn.scayle.cloud/images/4daa1783522730b0bb76a7546d800e83.jpg?brightness=1&width=922&height=1230&quality=70&bg=ffffff",
+    price: 478500,
   },
   {
-    slug: "mu-tshirt-black",
-    name: "MU x Adidas Futur Icons Black",
+    slug: "mu-tshirt-white",
+    name: "Manchester United Womens Devil Essentials T-Shirt White",
     description:
       "Casual MU shirt for everyday wear. Simple, comfy, and full of pride",
     imageUrl:
-      "https://mufc-live.cdn.scayle.cloud/images/499261d4bd317b576a13d2d1fcf20ce5.jpg?brightness=1&width=584&height=779&quality=70&bg=ffffff",
-    price: 752500,
+      "https://mufc-live.cdn.scayle.cloud/images/1fabd2a2122bc0d21272296b717af245.jpg?brightness=1&width=922&height=1230&quality=70&bg=ffffff",
+    price: 598100,
   },
   {
     slug: "mu-waynerooney-book",
